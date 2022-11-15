@@ -31,19 +31,20 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Environment Information
         run: npx envinfo
+      - name: Install GCC 8
+        run: sudo apt install gcc-8 g++-8
       - name: Make tarball
         run: |
-          export DISTTYPE=nightly
-          export DATESTRING=`date "+%Y-%m-%d"`
-          export COMMIT=$(git rev-parse --short=10 "$GITHUB_SHA")
+          export C=/usr/bin/gcc-8
+          export CXX=/usr/bin/g++-8
           ./configure && make tar -j8 SKIP_XZ=1
           mkdir tarballs
           mv *.tar.gz tarballs
-#       - name: Upload tarball artifact
-#         uses: actions/upload-artifact@v3
-#         with:
-#           name: tarballs
-#           path: tarballs
+      - name: Upload tarball artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: tarballs
+          path: tarballs
 #   test-tarball-linux:
 #     needs: build-tarball
 #     runs-on: ubuntu-latest

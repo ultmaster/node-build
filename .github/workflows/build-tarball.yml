@@ -37,7 +37,7 @@ jobs:
         run: |
           export C=/usr/bin/gcc-8
           export CXX=/usr/bin/g++-8
-          ./configure && make tar -j8 SKIP_XZ=1
+          ./configure && make binary -j8 SKIP_XZ=1
           mkdir tarballs
           mv *.tar.gz tarballs
       - name: Upload tarball artifact
